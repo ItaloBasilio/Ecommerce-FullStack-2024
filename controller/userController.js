@@ -27,7 +27,7 @@ const loginUserControl = asyncHandler(async (req, res) => {
             lastname: findUser?.lastname,
             email: findUser?.email,
             mobile: findUser?.mobile,
-            token:generateToken(findUser?._id)
+            token: generateToken(findUser?._id)
         });
     } else {
         throw new Error('Email ou senha incorretos');
@@ -37,8 +37,8 @@ const loginUserControl = asyncHandler(async (req, res) => {
 
 // Atualizar usuario
 
-const updateUser = asyncHandler( async ( req,res ) =>{
-    const {_id} = req.user;
+const updateUser = asyncHandler(async (req, res) => {
+    const { _id } = req.user;
     try {
         const updateUser = await User.findByIdAndUpdate(
             _id, {
@@ -47,12 +47,12 @@ const updateUser = asyncHandler( async ( req,res ) =>{
             email: req?.body?.email,
             mobile: req?.body?.mobile
 
-        }, 
-        {
-            new: true
-        }
-    );
-    res.json(updateUser);
+        },
+            {
+                new: true
+            }
+        );
+        res.json(updateUser);
 
     } catch (error) {
         throw new Error(error);
@@ -61,7 +61,7 @@ const updateUser = asyncHandler( async ( req,res ) =>{
 
 // Retornar todos os usuarios
 
-const getAllUser = asyncHandler( async ( req,res ) =>{
+const getAllUser = asyncHandler(async (req, res) => {
     try {
         const getUsers = await User.find();
         res.json(getUsers);
@@ -73,41 +73,81 @@ const getAllUser = asyncHandler( async ( req,res ) =>{
 
 // Retornar um usuario apenas
 
-const getUser = asyncHandler(async(req,res) => {
-    const { id }= req.params;
+const getUser = asyncHandler(async (req, res) => {
+    const { id } = req.params;
     try {
-       const getUser = await User.findById(id);
-       res.json({
-        getUser
-       })
+        const getUser = await User.findById(id);
+        res.json({
+            getUser
+        })
     } catch (error) {
-       throw new Error(error); 
+        throw new Error(error);
     }
 })
 
 
 // Excluir um usuario apenas
 
-const deleteUser = asyncHandler(async(req,res) => {
+const deleteUser = asyncHandler(async (req, res) => {
     // console.log(req.params);
-    const { id }= req.params;
+    const { id } = req.params;
     try {
-       const deleteUser = await User.findByIdAndDelete(id);
-       res.json({
-        deleteUser
-       })
+        const deleteUser = await User.findByIdAndDelete(id);
+        res.json({
+            deleteUser
+        })
     } catch (error) {
-       throw new Error(error); 
+        throw new Error(error);
     }
 })
 
 
+const blockUser = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    try {
+        const block = await User.findByIdAndUpdate(
+            id, 
+            {
+            isBlocked: true
+            },
+            {
+                new: true,
+            }
+        );
+        res.json({
+            message: "User Blocked"
+        })
+    } catch (error) {
+        throw new Error(error);
+    }
+});
 
+const unblockUser = asyncHandler(async (req, res) => { const { id } = req.params;
+try {
+    const unblock = await User.findByIdAndUpdate(
+        id, 
+        {
+        isBlocked: false
+        },
+        {
+            new: true,
+        }
+    );
+    res.json({
+        message: "User Unblocked"
+    })
+} catch (error) {
+    throw new Error(error);
+}
+});
 
-module.exports = { 
-    createUser, 
-    loginUserControl, 
-    getAllUser, 
-    getUser , 
-    deleteUser, 
-    updateUser };
+module.exports = {
+    createUser,
+    loginUserControl,
+    getAllUser,
+    getUser,
+    deleteUser,
+    updateUser,
+    blockUser,
+    unblockUser
+};
