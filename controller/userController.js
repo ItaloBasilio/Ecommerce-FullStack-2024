@@ -1,7 +1,7 @@
 const { generateToken } = require('../config/jwtToken');
 const User = require('../models/userModel');
 const asyncHandler = require('express-async-handler');
-
+const validateMongodbId = require('../utils/validateMongodbId');
 
 const createUser = asyncHandler(async (req, res) => {
     const email = req.body.email;
@@ -11,8 +11,8 @@ const createUser = asyncHandler(async (req, res) => {
         const newUser = await User.create(req.body);
         res.json(newUser);
     } else {
-        //usuario ja existe
-        throw new Error('Usuario já existe');
+        // usuário já existe
+        throw new Error('Usuário já existe');
     }
 });
 
@@ -31,114 +31,90 @@ const loginUserControl = asyncHandler(async (req, res) => {
         });
     } else {
         throw new Error('Email ou senha incorretos');
-
     }
-})
+});
 
 // Atualizar usuario
-
 const updateUser = asyncHandler(async (req, res) => {
     const { _id } = req.user;
+    validateMongodbId(_id);
     try {
         const updateUser = await User.findByIdAndUpdate(
             _id, {
-            firstname: req?.body?.firstname,
-            lastname: req?.body?.lastname,
-            email: req?.body?.email,
-            mobile: req?.body?.mobile
-
-        },
-            {
-                new: true
-            }
+                firstname: req?.body?.firstname,
+                lastname: req?.body?.lastname,
+                email: req?.body?.email,
+                mobile: req?.body?.mobile
+            },
+            { new: true }
         );
         res.json(updateUser);
-
     } catch (error) {
         throw new Error(error);
     }
-})
+});
 
 // Retornar todos os usuarios
-
 const getAllUser = asyncHandler(async (req, res) => {
     try {
         const getUsers = await User.find();
         res.json(getUsers);
     } catch (error) {
         throw new Error(error);
-
     }
-})
+});
 
 // Retornar um usuario apenas
-
 const getUser = asyncHandler(async (req, res) => {
     const { id } = req.params;
+    validateMongodbId(id);
     try {
         const getUser = await User.findById(id);
-        res.json({
-            getUser
-        })
-    } catch (error) {
-        throw new Error(error);
-    }
-})
-
-
-// Excluir um usuario apenas
-
-const deleteUser = asyncHandler(async (req, res) => {
-    // console.log(req.params);
-    const { id } = req.params;
-    try {
-        const deleteUser = await User.findByIdAndDelete(id);
-        res.json({
-            deleteUser
-        })
-    } catch (error) {
-        throw new Error(error);
-    }
-})
-
-
-const blockUser = asyncHandler(async (req, res) => {
-    const { id } = req.params;
-    try {
-        const block = await User.findByIdAndUpdate(
-            id, 
-            {
-            isBlocked: true
-            },
-            {
-                new: true,
-            }
-        );
-        res.json({
-            message: "User Blocked"
-        })
+        res.json(getUser);
     } catch (error) {
         throw new Error(error);
     }
 });
 
-const unblockUser = asyncHandler(async (req, res) => { const { id } = req.params;
-try {
-    const unblock = await User.findByIdAndUpdate(
-        id, 
-        {
-        isBlocked: false
-        },
-        {
-            new: true,
-        }
-    );
-    res.json({
-        message: "User Unblocked"
-    })
-} catch (error) {
-    throw new Error(error);
-}
+// Excluir um usuario apenas
+const deleteUser = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    try {
+        const deleteUser = await User.findByIdAndDelete(id);
+        res.json(deleteUser);
+    } catch (error) {
+        throw new Error(error);
+    }
+});
+
+const blockUser = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    validateMongodbId(id);
+    try {
+        const block = await User.findByIdAndUpdate(
+            id,
+            { isBlocked: true },
+            { new: true }
+        );
+        res.json(block);
+    } catch (error) {
+        throw new Error(error);
+    }
+});
+
+const unblockUser = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    validateMongodbId(id);
+    try {
+        const unblock = await User.findByIdAndUpdate(
+            id,
+            { isBlocked: false },
+            { new: true }
+        );
+        res.json(unblock);
+    } catch (error) {
+        throw new Error(error);
+    }
 });
 
 module.exports = {
