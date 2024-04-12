@@ -38,9 +38,10 @@ const loginUserControl = asyncHandler(async (req, res) => {
 // Atualizar usuario
 
 const updateUser = asyncHandler( async ( req,res ) =>{
-    const {id} = req.params;
+    const {_id} = req.user;
     try {
-        const updateUser = await User.findByIdAndUpdate(id, {
+        const updateUser = await User.findByIdAndUpdate(
+            _id, {
             firstname: req?.body?.firstname,
             lastname: req?.body?.lastname,
             email: req?.body?.email,
@@ -73,7 +74,6 @@ const getAllUser = asyncHandler( async ( req,res ) =>{
 // Retornar um usuario apenas
 
 const getUser = asyncHandler(async(req,res) => {
-    console.log(req.params);
     const { id }= req.params;
     try {
        const getUser = await User.findById(id);
@@ -89,7 +89,7 @@ const getUser = asyncHandler(async(req,res) => {
 // Excluir um usuario apenas
 
 const deleteUser = asyncHandler(async(req,res) => {
-    console.log(req.params);
+    // console.log(req.params);
     const { id }= req.params;
     try {
        const deleteUser = await User.findByIdAndDelete(id);
@@ -110,5 +110,4 @@ module.exports = {
     getAllUser, 
     getUser , 
     deleteUser, 
-    updateUser 
-};
+    updateUser };
