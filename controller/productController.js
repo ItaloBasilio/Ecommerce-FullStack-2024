@@ -70,27 +70,33 @@ const deleteProduct = asyncHandler(async (req, res) => {
 const getaProduct = asyncHandler(async (req, res) => {
     const { id } = req.params;
     try {
+
+        
+
         const findProduct = await Product.findById(id);
-        if (!findProduct) {
-            return res.status(404).json({ message: "O produto não existe" });
-        }
-        res.json({ message: "Produto encontrado com sucesso", findProduct });
+        res.json(findProduct);
     } catch (error) {
-        return res.status(400).json({ message: "ID do produto inválido" });
+        throw new Error(error);
     }
-});
-
-
+})
 
 // Get all products
 
 const getAllProducts = asyncHandler(async (req, res) => {
-
     try {
-        const getallproducts = await Product.find();
-        res.json(getallproducts);
-    } catch (error) {
+        const queryObj = {...req.query};
+        const excludeFields = ['page', 'sort', 'limit', 'fields'];
+        excludeFields.forEach((el) => delete queryObj[el]);
+        console.log(queryObj);
+        let queryStr = JSON.stringify(queryObj);
+        queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, match => `$${match}`);
 
+
+        const query = Product.find (JSON.parse(queryStr));
+        const product = await query;
+        res.json(product);
+    } catch (error) {
+        throw new Error(error);
     }
 })
 
