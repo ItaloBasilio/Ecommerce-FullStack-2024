@@ -11,8 +11,8 @@ const sendEmail = asyncHandler(async(data,req,res) => {
         port: 587,
         secure: false, // Use `true` for port 465, `false` for all other ports
         auth: {
-          user: "italobasiliodasilva@gmail.com",
-          pass: "utdebnrrqqflszgg",
+          user: process.env.EMAIL_USER, // Use process.env para acessar as variáveis de ambiente
+          pass: process.env.EMAIL_PASS,
         },
       });
       
