@@ -5,7 +5,8 @@ const {
     getAllProducts, 
     updateProduct, 
     deleteProduct, 
-    addToWishList
+    addToWishList,
+    rating
 } = require('../controller/productController');
 const { isAdmin, authMiddleware } = require('../middlewares/authMiddleware');
 const router = express.Router();
@@ -18,7 +19,7 @@ router.get('/:id', getaProduct);
 
 //Rota para lista de favoritos
 router.put('/wishlist', authMiddleware, addToWishList )
-
+router.put('/rating', authMiddleware, rating )
 // Middleware de autenticação aplicado antes das rotas protegidas
 router.use(authMiddleware);
 
