@@ -38,14 +38,11 @@ const blogSchema = new mongoose.Schema({
             ref: 'User'
         },
     ],
-    image: {
-        type: String,
-        default: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fpixabay.com%2Fimages%2Fsearch%2Fcalm%2F&psig=AOvVaw18UqHbhKWnlxr5WYs7T4C1&ust=1713436902708000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCLjpgYGIyYUDFQAAAAAdAAAAABAE"
-    },
     author: {
         type: String,
         default: "Admin",
-    }
+    },
+    images: [],
 }, {
     toJSON: {
         virtuals: true,

@@ -1,25 +1,27 @@
 const express = require('express');
-const { 
-    createProduct, 
-    getaProduct, 
-    getAllProducts, 
-    updateProduct, 
-    deleteProduct, 
+const {
+    createProduct,
+    getaProduct,
+    getAllProducts,
+    updateProduct,
+    deleteProduct,
     addToWishList,
-    rating
+    rating,
+    uploadImages
 } = require('../controller/productController');
 const { isAdmin, authMiddleware } = require('../middlewares/authMiddleware');
+const { uploadPhoto, productImgResize } = require('../middlewares/uploadImages');
 const router = express.Router();
 
 // Rotas protegidas que requerem autenticação e autorização de administrador
 router.post('/', createProduct); // Rota para criar um produto
-
+router.put('/upload/:id', authMiddleware, isAdmin, uploadPhoto.array('images', 10), productImgResize, uploadImages);
 // Rota para obter um produto por ID
 router.get('/:id', getaProduct);
 
 //Rota para lista de favoritos
-router.put('/wishlist', authMiddleware, addToWishList )
-router.put('/rating', authMiddleware, rating )
+router.put('/wishlist', authMiddleware, addToWishList)
+router.put('/rating', authMiddleware, rating)
 // Middleware de autenticação aplicado antes das rotas protegidas
 router.use(authMiddleware);
 
