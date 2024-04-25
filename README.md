@@ -35,6 +35,6 @@ MONGODB_URI=sua_url_do_mongodb<br>
 
 O projeto estará disponível em http://localhost:3001 após a execução, ou na PORTA de sua preferência.<br><br><br>
 
-<h2>📝 Licença</h2>
+<h2>📝 Em desenvolvimento</h2>
 
-Este projeto está sob a licença MIT. Consulte o arquivo LICENSE para obter mais informações.
+Ítalo Basilio da Silva.
