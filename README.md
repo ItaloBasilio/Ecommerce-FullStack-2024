@@ -35,6 +35,8 @@ MONGODB_URI=sua_url_do_mongodb<br>
 
 O projeto estará disponível em http://localhost:3001 após a execução, ou na PORTA de sua preferência.<br><br><br>
 
-<h2>📝 Em desenvolvimento</h2>
+<h2>📝 Em desenvolvimento ( Back-End )</h2>
 
 Ítalo Basilio da Silva.
+
+<img src="https://github.com/ItaloBasilio/Ecommerce-FullStack-2024/blob/master/Postman%20-%20BackEnd.png?raw=true">
