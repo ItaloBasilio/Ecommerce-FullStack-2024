@@ -7,7 +7,8 @@ const {
     deleteProduct,
     addToWishList,
     rating,
-    uploadImages
+    uploadImages,
+    deleteImages
 } = require('../controller/productController');
 const { isAdmin, authMiddleware } = require('../middlewares/authMiddleware');
 const { uploadPhoto, productImgResize } = require('../middlewares/uploadImages');
@@ -15,7 +16,7 @@ const router = express.Router();
 
 // Rotas protegidas que requerem autenticação e autorização de administrador
 router.post('/', createProduct); // Rota para criar um produto
-router.put('/upload/:id', authMiddleware, isAdmin, uploadPhoto.array('images', 10), productImgResize, uploadImages);
+router.put('/upload/', authMiddleware, isAdmin, uploadPhoto.array('images', 10), productImgResize, uploadImages);
 // Rota para obter um produto por ID
 router.get('/:id', getaProduct);
 
@@ -29,8 +30,9 @@ router.use(authMiddleware);
 router.use(isAdmin);
 
 
-router.put('/:id', updateProduct); // Rota para atualizar um produto por ID
-router.delete('/:id', deleteProduct); // Rota para excluir um produto por ID
+router.put('/:id',authMiddleware, isAdmin, updateProduct); // Rota para atualizar um produto por ID
+router.delete('/:id', authMiddleware, isAdmin, deleteProduct); // Rota para excluir um produto por ID
+router.delete('/delete-img/:id',authMiddleware, isAdmin, deleteImages); // Rota para excluir um produto por ID
 
 // Rota para obter todos os produtos (não requer autenticação ou autorização de administrador)
 router.get('/', getAllProducts);
