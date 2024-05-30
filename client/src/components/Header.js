@@ -90,23 +90,24 @@ const Header = () => {
                 <div>
                   <div class="dropdown">
                     <button 
-                      class="btn btn-secondary dropdown-toggle" 
+                      className="btn btn-secondary dropdown-toggle bg-transparent border-0 gap-15 d-flex align-items-center" 
                       type="button" 
                       data-bs-toggle="dropdown" 
                       aria-expanded="false"
                     >
-                      Dropdown button
+                      <img src="images/menu.svg" alt="menu" />
+                      <span className="me-5 d-inline-block">Categorias | Loja</span>
                     </button>
                     <ul 
-                      class="dropdown-menu">
+                      className="dropdown-menu">
                       <li>
-                        <a class="dropdown-item" href="#">Action</a>
+                        <Link className="dropdown-item text-white " to="#">Action</Link>
                       </li>
                       <li>
-                        <a class="dropdown-item" href="#">Another action</a>
+                        <Link className="dropdown-item text-white " to="#">Another action</Link>
                       </li>
                       <li>
-                        <a class="dropdown-item" href="#">Something else here</a>
+                        <Link className="dropdown-item text-white " to="#">Something else here</Link>
                       </li>
                     </ul>
                   </div>
